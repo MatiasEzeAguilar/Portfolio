@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using PersonalPortfolio;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -6,7 +7,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<BlogContext>(
+builder.Services.AddDbContext<ApplicationContext>(
        options => options.UseSqlite("Data Source=.;Initial Catalog=PortfolioDb;Integrated Security=True;"));
 
 builder.Services.AddCors(options =>
