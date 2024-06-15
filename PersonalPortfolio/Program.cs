@@ -7,7 +7,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddDbContext<ApplicationContext>(
+builder.Services.AddDbContext<PortfolioContext>(
        options => options.UseSqlite("Data Source=.;Initial Catalog=PortfolioDb;Integrated Security=True;"));
 
 builder.Services.AddCors(options =>
