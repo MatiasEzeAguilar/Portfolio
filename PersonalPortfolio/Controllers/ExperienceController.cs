@@ -8,49 +8,47 @@ namespace Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        private PortfolioContext _portContext;
-        public ExperienceController(PortfolioContext portfolioContext)
+        private ExperienceRepository _repo;
+        public ExperienceController(ExperienceRepository repo)
         {
-            _portContext = portfolioContext;
+            _repo = repo;
         }
 
         [HttpGet]
         public ActionResult Get()
         {
-            return Ok(_portContext.GetAll());
+            return Ok(_repo.GetAll());
         }
 
         [HttpGet("{idExperience}")]
         public ActionResult Get(int idExperience)
         {
-            var experienceToReturn = _portContext.Get(idExperience);
+            var experienceToReturn = _repo.Get(idExperience);
             return Ok(experienceToReturn);
         }
 
         [HttpGet("search")]
         public ActionResult GetBySearchParameters([FromQuery]string searchCriteria)
         {
-            return Ok(_portContext.GetBySearchParameters(searchCriteria));
+            return Ok(_repo.GetBySearchParameters(searchCriteria));
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteExperience(int id)
         {
-            return Ok(_portContext.Delete(id));
+            return Ok(_repo.Delete(id));
         }
 
         [HttpPut("{id}")]
         public ActionResult UpdateExperience(int id, [FromBody] ExperienceToUpdate body)
         {
-
-            Experience exp = _portContext.Experiences.FirstOrDefault(a => a.Id == id);
-            exp.Description = body.Description ?? exp.Description;
-            exp.Summary = body.Summary ?? exp.Summary;
-            exp.Aptitudes = body.Aptitudes ?? exp.Aptitudes;
-            exp.ImagePath = body.ImagePath ?? exp.ImagePath;
-            _portContext.Experiences.Update(exp);
-            _portContext.SaveChanges();
-            return NoContent();
+            var experienceToReturn = DemoExperience.Experiences.First(a => a.Id == id);
+            experienceToReturn.Summary = body.Summary;
+            experienceToReturn.Description = body.Description;
+            experienceToReturn.Aptitudes = body.Aptitudes;
+            experienceToReturn.ImagePath = body.ImagePath;
+            _repo.AddExperience(experienceToReturn);
+            return Ok();
         }
 
         [HttpPost]
@@ -64,8 +62,8 @@ namespace Controllers
                 Summary = body.Summary,
                 Title = body.Title,
                 Aptitudes = body.Aptitudes
-            }; 
-            return Ok(_portContext.AddExperience(newExperience));
+            };
+            return Ok(_repo.AddExperience(newExperience));
         }
     }
 }

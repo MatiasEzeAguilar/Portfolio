@@ -8,7 +8,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PortfolioContext>(
-       options => options.UseSqlite("Data Source=.;Initial Catalog=PortfolioDb;Integrated Security=True;"));
+       options => options.UseSqlite("Data Source=ExperienceApi.db"));
 
 builder.Services.AddCors(options =>
 {

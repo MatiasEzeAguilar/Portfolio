@@ -13,7 +13,7 @@ namespace PersonalPortfolio
         public string? Summary { get; set; }
         public string? Description { get; set; }
         public string? ImagePath { get; set; }
-        public TagsAttribute? Aptitudes { get; set; }
+        public ExperienceAptitudEnum Aptitudes { get; set; }
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
