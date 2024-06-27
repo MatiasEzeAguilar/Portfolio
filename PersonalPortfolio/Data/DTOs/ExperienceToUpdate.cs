@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace PersonalPortfolio
 {
@@ -9,6 +10,8 @@ namespace PersonalPortfolio
         public string? Summary {get; set;}
         public string? Description {get; set;}
         public string? ImagePath {get;set;}
-        public ExperienceAptitudEnum Aptitudes { get; set; }
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public CategoryEnum Category { get; set; }
+        public List<Skill> Skills { get; set; }
     }
 }

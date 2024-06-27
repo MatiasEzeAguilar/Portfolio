@@ -7,19 +7,13 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<PortfolioContext>(
        options => options.UseSqlite("Data Source=ExperienceApi.db"));
 
-builder.Services.AddCors(options =>
-{
-    
-    options.AddPolicy("default", policy =>
-    {
-        policy.WithOrigins("http://127.0.0.1:5173")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
-    });
-});
+builder.Services.AddScoped<ExperienceRepository>();
+builder.Services.AddScoped<SkillRepository>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

@@ -10,5 +10,6 @@ class ExperienceToReturn
     public DateTime Date {get;set;}
     public string? ImagePath {get;set;}
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public ExperienceAptitudEnum Aptitudes {get; set;}
+    public CategoryEnum Category {get; set;}
+    public List<Skill> Skills {get; set;}
 }

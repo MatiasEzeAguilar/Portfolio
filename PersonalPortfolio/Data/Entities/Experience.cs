@@ -1,23 +1,25 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace PersonalPortfolio
 {
     public class Experience
     {
-        [Required]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         [MaxLength(70)]
         public string? Title { get; set; }
-        [Required]
         [MaxLength(230)]
         public string? Summary { get; set; }
         public string? Description { get; set; }
         public string? ImagePath { get; set; }
-        public ExperienceAptitudEnum Aptitudes { get; set; }
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [JsonConverter(typeof(JsonStringEnumConverter))]
+        public CategoryEnum Category { get; set; }
+        public List<Skill> Skills {get; set; }
         public int Id { get; set; }
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; }
+        [JsonIgnore]
         public string State { get; set; } = "Active";
     }
 }

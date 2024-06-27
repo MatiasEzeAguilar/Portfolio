@@ -1,4 +1,4 @@
-﻿using System.Reflection.PortableExecutable;
+﻿using Microsoft.EntityFrameworkCore;
 
 namespace PersonalPortfolio
 {
@@ -12,19 +12,25 @@ namespace PersonalPortfolio
 
         public List<Experience> GetAll()
         {
-            return _context.Experiences.Where(a => a.State == "Active").ToList();
+            return _context.Experiences.Include(a => a.Skills).Where(a => a.State == "Active").ToList();
         }
 
         public Experience? Get(int Id)
         {
-            return _context.Experiences.Where(a => a.State == "Active").FirstOrDefault(a => a.Id == Id);
+            return _context.Experiences.Include(a => a.Skills).Where(a => a.State == "Active").FirstOrDefault(a => a.Id == Id);
         }
 
         public List<Experience> GetBySearchParameters(string searchParameters)
         {
-            return _context.Experiences.Where(a => a.Title.Contains(searchParameters) || a.Summary.Contains(searchParameters)).ToList();
+            return _context.Experiences.Include(a => a.Skills).Where(a => a.Title.Contains(searchParameters) || a.Summary.Contains(searchParameters)).ToList();
         }
-
+        public int AddExperience(Experience newExperience)
+        {
+            _context.Experiences.Add(newExperience);
+            _context.Skills.AddRange(newExperience.Skills);
+            _context.SaveChanges();
+            return newExperience.Id;
+        }
         public bool Delete(int id)
         {
             var experienceToDelete = _context.Experiences.FirstOrDefault(a => a.Id == id);
@@ -36,13 +42,6 @@ namespace PersonalPortfolio
                 return true;
             }
             return false;
-        }
-
-        public int AddExperience(Experience newExperience)
-        {
-            _context.Experiences.Add(newExperience);
-            _context.SaveChanges();
-            return newExperience.Id;
         }
     }
 }
