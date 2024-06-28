@@ -7,10 +7,12 @@ namespace Controllers
     [ApiController]
     public class ExperienceController : ControllerBase
     {
-        private ExperienceRepository _repo;
-        public ExperienceController(ExperienceRepository repo)
+        private readonly ExperienceRepository _repo;
+        private readonly PortfolioContext _context;
+        public ExperienceController(ExperienceRepository repo, PortfolioContext context)
         {
             _repo = repo;
+            _context = context;
         }
 
         [HttpGet]
@@ -51,13 +53,14 @@ namespace Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateExperience(int id, [FromBody] ExperienceToUpdate body)
         {
-            var experienceToReturn = WorkExperience.Experiences.First(a => a.Id == id);
-            experienceToReturn.Summary = body.Summary;
-            experienceToReturn.Description = body.Description;
-            experienceToReturn.Category = body.Category;
-            experienceToReturn.ImagePath = body.ImagePath;
-            experienceToReturn.Skills = body.Skills;
-            _repo.AddExperience(experienceToReturn);
+            Experience experience = _context.Experiences.First(a => a.Id == id);
+            experience.Summary = body.Summary;
+            experience.Description = body.Description;
+            experience.Category = body.Category;
+            experience.ImagePath = body.ImagePath;
+            experience.Skills = body.Skills;
+            _context.Experiences.Update(experience);
+            _context.SaveChanges();
             return Ok();
         }
         

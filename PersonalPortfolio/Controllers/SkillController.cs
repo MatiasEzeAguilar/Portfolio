@@ -7,7 +7,7 @@ namespace Controllers
     [ApiController]
     public class SkillController : ControllerBase
     {
-        private SkillRepository _repo;
+        private readonly SkillRepository _repo;
         public SkillController(SkillRepository repo)
         {
             _repo = repo;
